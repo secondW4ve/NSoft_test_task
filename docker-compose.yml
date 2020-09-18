@@ -1,0 +1,55 @@
+
+version: '3.8'
+
+services:
+  app-server:
+    build:
+      context: task
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on: 
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/rooms
+      SPRING_DATASOURCE_USERNAME: test_task
+      SPRING_DATASOURCE_PASSWORD: 1234     
+    networks:
+      - backend
+      - frontend
+
+  app-client:
+    stdin_open: true
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports: 
+      - "3000:3000"
+    depends_on:
+      - app-server
+    networks:
+      - frontend  
+
+  db:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_DATABASE: rooms
+      MYSQL_USER: test_task
+      MYSQL_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - backend  
+  
+volumes:
+  db-data:
+
+networks:
+  backend:
+  frontend:    
