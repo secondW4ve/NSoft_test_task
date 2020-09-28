@@ -7,8 +7,6 @@ COPY .mvn .mvn
 
 COPY pom.xml .
 
-RUN ./mvnw dependency:go-offline -B
-
 COPY src src
 
 RUN ./mvnw package -DskipTests
@@ -23,5 +21,7 @@ COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
 COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
 EXPOSE 8080
+
+RUN 
 
 ENTRYPOINT ["java","-cp","app:app/lib/*","com.test.task.TaskApplication"]

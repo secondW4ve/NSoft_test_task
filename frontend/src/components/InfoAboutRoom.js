@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const InfoAboutRoom = props => {
 
   return (
-    <Container>
+    <Container className = "info-record">
       <Row>
         <Col>
           <ListGroup className="list-group-flush">
