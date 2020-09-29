@@ -22,6 +22,4 @@ COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
 EXPOSE 8080
 
-RUN 
-
 ENTRYPOINT ["java","-cp","app:app/lib/*","com.test.task.TaskApplication"]
