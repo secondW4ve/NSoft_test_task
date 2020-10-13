@@ -6,41 +6,39 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const InputForm = props => {
 
   return (
-    <Container>
-      <Row className="justify-content-md-center">
-          <div style = {{marginBottom: 10}}>
-            {props.corners.map((corner, index) => (
-              <div>
-                <input
-                    type="text"
-                    placeholder = "X"
-                    value = {corner.x === null ? '' : corner.x}
-                    onChange={({ target: { value } }) =>
-                      props.setCorners([
-                        ...props.corners.slice(0, index),
-                        { x: value, y: props.corners[index].y },
-                        ...props.corners.slice(index + 1, props.corners.length),
-                      ])
-                    }
-                  />
-                  <input
-                    type="text"
-                    placeholder = "Y"
-                    value = {corner.y === null ? '' : corner.y}
-                    onChange={({ target: { value } }) =>
-                      props.setCorners([
-                        ...props.corners.slice(0, index),
-                        { x: props.corners[index].x, y: value },
-                        ...props.corners.slice(index + 1, props.corners.length),
-                      ])
-                    }
-                  />
-              </div>  
-            ))}
-          </div>
-      </Row>
-      <Row className="justify-content-md-center">
-        <Col xs md = "auto">
+    <div className = "input-container">
+      <div>
+        {props.corners.map((corner, index) => (
+          <div>
+            <input
+                type="text"
+                placeholder = "X"
+                value = {corner.x === null ? '' : corner.x}
+                onChange={({ target: { value } }) =>
+                  props.setCorners([
+                    ...props.corners.slice(0, index),
+                    { x: value, y: props.corners[index].y },
+                    ...props.corners.slice(index + 1, props.corners.length),
+                  ])
+                }
+              />
+              <input
+                type="text"
+                placeholder = "Y"
+                value = {corner.y === null ? '' : corner.y}
+                onChange={({ target: { value } }) =>
+                  props.setCorners([
+                    ...props.corners.slice(0, index),
+                    { x: props.corners[index].x, y: value },
+                    ...props.corners.slice(index + 1, props.corners.length),
+                  ])
+                }
+              />
+          </div>  
+        ))}
+      </div>
+      <div className = "control-container">
+        <div className = "button-container">
           <Button 
             variant = "primary" 
             disabled = {props.pendingApiCall}
@@ -48,8 +46,6 @@ const InputForm = props => {
           >
             Add new pair
           </Button>
-        </Col>
-        <Col xs md = "auto">
           <Button 
             variant = "warning" 
             disabled = {props.pendingApiCall}
@@ -57,8 +53,6 @@ const InputForm = props => {
           >
             Delete pair
           </Button>
-        </Col> 
-        <Col xs md = "auto">
           <Button 
             variant="success" 
             type = "submit" 
@@ -67,8 +61,6 @@ const InputForm = props => {
           >
             Save and draw
           </Button>
-        </Col>
-        <Col xs md = "auto">
           <Button 
             onClick = {props.onClickCancel} 
             variant = "danger"
@@ -76,22 +68,18 @@ const InputForm = props => {
           >
             Cancel
           </Button>
-        </Col>   
-      </Row>
-      <Row>
-        <div style = {{margin: "auto"}}>
+          </div>
+        <div className = "error-block">
           {props.pendingApiCall && <Spinner animation = "border"></Spinner>}
-          <div style = {{color: "red"}}>
+          <div>
             {props.error !== undefined ?
               <div>{props.error}</div> :
-              null
+              <div></div>
             }
           </div>
-          
-        </div>
-          
-      </Row>
-    </Container>
+        </div> 
+      </div>
+    </div>
   )
 }
 

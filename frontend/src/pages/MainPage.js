@@ -5,7 +5,7 @@ import Api from '../api/Api';
 import InfoAboutRoom from '../components/InfoAboutRoom';
 import InputForm from '../components/InputForm';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import '../styles.css'
 
 const MainPage = props => {
 
@@ -130,107 +130,87 @@ const MainPage = props => {
   }
 
   return (
-    <Container fluid>
-      <Row>
-        <div style = {{margin: "auto"}}>
-          <h1 >Room builder</h1>
-        </div>
-      </Row>
-      <Row>
-        <Col>
-          <Card style = {{height: '400px', overflow: 'hidden', overflowY: 'scroll'}}>
-            <Card.Header>Saved Rooms</Card.Header>
-            {pendingGetAllCall === true ? <Spinner style = {{margin: "auto"}} animation = "border"/> : (
-              <ListGroup className="list-group-flush">
-              {savedRooms.map((room, index)=> 
-                <ListGroupItem id = {room.id}>
-                  <Container>
-                    <Row>
-                      <Col xs = {6}>
-                        <InfoAboutRoom data = {[...room.corners]}/>
-                      </Col>
-                      <Col xs = {2}>
-                        <Button 
-                          variant = "primary"
-                          onClick = {() => onClickDraw(index)}  
-                        >
-                          Draw
-                        </Button>
-                      </Col>
-                      <Col xs = {2}>
-                        <Button 
-                          variant = "warning"
-                          disabled = {pendingApiCall}
-                          onClick = {() => { onEditClick(index) }}
-                        >
-                          Edit
-                        </Button>
-                      </Col>
-                      <Col xs = {2}>
-                        <Button 
-                          variant = "danger"
-                          onClick = {() => { onDeleteClick(index)}}
-                          disabled = {pendingApiCall}
-                        >
-                          Delete
-                        </Button>
-                      </Col>
-                    </Row>
-                    <Row>
-                      {error !== undefined ? (
-                        {error}
-                      ) : (null)}
-                    </Row>
-                  </Container>
-                </ListGroupItem>)}
-            </ListGroup>
-            )}
-          </Card>
-        </Col>
-        <Col >
-          <div style = {{textAlign: "center"}}>
-            <Canvas 
-              cornersForDraw = {cornersForDraw}
-              height = "400" 
-              width = "400"
-            />
-          </div>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <div style = {{textAlign: "center", margin: 20}}>
-            <Button 
-                variant = "success" 
-                size = "lg"
-                disabled = {showForm}
-                onClick = {onClickAddNewRoom} 
-              >
-                Add new room
-              </Button>
-          </div>
-        </Col>
-      </Row>
-      {showForm && (
-        <Row>
-          <Col xs = {3}></Col>
-          <Col xs = {6}>
-            <div style = {{margin: 20}}>
-              <InputForm 
-                onClickSaveAndDraw = {onClickSaveAndDraw}
-                onClickAddNewPair = {onClickAddNewPair}
-                setCorners = {setCorners}
-                corners = {corners}
-                onClickCancel = {onClickCancel}
-                error = {errorPost} 
-                onClickDeletePair = {onClickDeletePair}
-              ></InputForm>
+    <div className = "main-container">
+      <div>
+        <h1>Room Builder</h1>
+      </div>
+      <div className = "content-block">
+          <div className = "card rooms-list">
+            <div className = "card-header text-center">
+              <h3>Saved Rooms</h3>
             </div>
-          </Col>
-          <Col xs = {3}></Col>
-        </Row>
-      )}
-    </Container>
+          {pendingGetAllCall === true ? <Spinner style = {{margin: "auto"}} animation = "border"/> : (
+            <div>
+              {savedRooms.map((room, index) => 
+                  <div id = {room.id} className = "info-card">
+                    <InfoAboutRoom data = {[...room.corners]}/>
+                    <div className = "control-record-buttons">
+                      <Button 
+                        variant = "primary"
+                        className = "record-button"
+                        disabled = {pendingApiCall}
+                        onClick = {() => onClickDraw(index)}  
+                      >
+                        Draw
+                      </Button>
+                      <Button 
+                        variant = "warning"
+                        className = "record-button"
+                        disabled = {pendingApiCall}
+                        onClick = {() => { onEditClick(index) }}
+                      >
+                        Edit
+                      </Button>
+                      <Button 
+                        variant = "danger"
+                        className = "record-button"
+                        onClick = {() => { onDeleteClick(index)}}
+                        disabled = {pendingApiCall}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  {error !== undefined ? (
+                    {error}
+                  ) : (null)}
+                  </div>
+                )}
+            </div>)}
+        </div>
+        <div>
+          <Canvas 
+            cornersForDraw = {cornersForDraw}
+            height = "400" 
+            width = "400"
+          />
+        </div>
+    </div>
+    <div>
+        <Button 
+          variant = "success" 
+          size = "lg"
+          disabled = {showForm}
+          onClick = {onClickAddNewRoom} 
+        >
+          Add new room
+        </Button>
+      </div>
+    <div>
+    {showForm && (
+      <div>
+        <InputForm 
+          onClickSaveAndDraw = {onClickSaveAndDraw}
+          onClickAddNewPair = {onClickAddNewPair}
+          setCorners = {setCorners}
+          corners = {corners}
+          onClickCancel = {onClickCancel}
+          error = {errorPost} 
+          onClickDeletePair = {onClickDeletePair}
+        ></InputForm>
+      </div>
+    )}
+    </div>
+    </div>
   );
 }
 
